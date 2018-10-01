@@ -14,8 +14,13 @@ function Timer(daysContainerSelector,timerContainerSelector, timeEndContainerSel
      * @param {number} seconds
      */
     this.start = function (seconds) {
-        /*TODO проверку на число.*/
 
+
+        function isNumeric(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        if(!isNumeric(seconds))return this.stop();
 
         clearInterval(countdown);
 
@@ -76,10 +81,11 @@ function Timer(daysContainerSelector,timerContainerSelector, timeEndContainerSel
 
         const display = `${h ? hou : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
 
-        const day = days>0?days:'';
+        const day = days<1?'':days+ ' day`s';
 
         document.title = display;
-        daysContainer.textContent = day+'  day';
+
+        daysContainer.textContent = day;
          timerContainer.textContent = display;
 
     }
@@ -119,8 +125,8 @@ function startTimerOnClick(e) {
 
 function sendTime(e) {
     e.preventDefault();
-    const seconds = minutes.value*60;
-    myTimer.start(seconds);
+    const seconds = minutes.value.slice(0,120);
+    myTimer.start(seconds*'60');
     formSendTime.reset();
 }
 
