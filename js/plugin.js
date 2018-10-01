@@ -1,6 +1,5 @@
 
 /*TODO обработать событие формы перевести время в секунды и отобразить дни и когда закончится таймер*/
-//Дена гитхаб dmgame
 
 function Timer(timerContainerSelector, timeEndContainerSelector,audioSrc) {
     let countdown;
@@ -111,7 +110,9 @@ function startTimerOnClick(e) {
 
 function sendTime(e) {
     e.preventDefault();
-    console.log(minutes.value*1);
+    const seconds = minutes.value*60;
+    myTimer.start(seconds);
+    formSendTime.reset();
 }
 
 
