@@ -1,9 +1,10 @@
 
 /*TODO обработать событие формы перевести время в секунды и отобразить дни и когда закончится таймер*/
 
-function Timer(timerContainerSelector, timeEndContainerSelector,audioSrc) {
+function Timer(daysContainerSelector,timerContainerSelector, timeEndContainerSelector,audioSrc) {
     let countdown;
 
+    let daysContainer = document.querySelector(daysContainerSelector);
     let timerContainer = document.querySelector(timerContainerSelector);
     let endTimeContainer = document.querySelector(timeEndContainerSelector);
     let audio = new Audio(audioSrc);
@@ -14,6 +15,7 @@ function Timer(timerContainerSelector, timeEndContainerSelector,audioSrc) {
      */
     this.start = function (seconds) {
         /*TODO проверку на число.*/
+
 
         clearInterval(countdown);
 
@@ -45,6 +47,7 @@ function Timer(timerContainerSelector, timeEndContainerSelector,audioSrc) {
     /*TODO Описание*/
     this.stop= function () {
         clearInterval(countdown);
+        daysContainer.innerHTML='';
         timerContainer.innerHTML = '';
         endTimeContainer.innerHTML = '';
         document.title = '';
@@ -64,15 +67,21 @@ function Timer(timerContainerSelector, timeEndContainerSelector,audioSrc) {
      */
     function displayTimeLeft(seconds) {
 
-        const h = seconds / 3600 ^ 0;
-        const m = (seconds - h * 3600) / 60 ^ 0;
-        const s = seconds - h * 3600 - m * 60;
+        const days = seconds/86400 ^ 0;
+        const h = (seconds - days*86400)/ 3600 ^ 0;
+        const m = (seconds - days*86400 - h * 3600) / 60 ^ 0;
+        const s = seconds - days*86400 - h * 3600 - m * 60;
+
         const hou = `${h < 10 ? '0' : ''}${h}:`;
 
         const display = `${h ? hou : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
 
+        const day = days>0?days:'';
+
         document.title = display;
-        timerContainer.textContent = display;
+        daysContainer.textContent = day+'  day';
+         timerContainer.textContent = display;
+
     }
 
     /*
@@ -99,7 +108,7 @@ const stopBtn = document.querySelector('.stop_timer');
 const formSendTime = document.forms['customForm'];
 const minutes=formSendTime['minutes'];
 
-const myTimer = new Timer('.display__time-left', '.display__end-time','audio/bell.mp3');
+const myTimer = new Timer('.display__days-left','.display__time-left', '.display__end-time','audio/bell.mp3');
 
 /*TODO Описать функцию*/
 
